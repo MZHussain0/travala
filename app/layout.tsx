@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import Navbar from "@/components/navbar/Navbar";
+import { ClerkProvider } from "@clerk/nextjs";
+import ToastProvider from "@/providers/ToasterProvider";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -17,13 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={font.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Navbar />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={font.className}>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <ToastProvider />
+            <Navbar />
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
